@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Города</title>
+
+
+    <th:block th:if="${!cityToCount.isEmpty()}">
+        <div th:each="city : ${cityToCount.entrySet()}" style="border-bottom: 1px solid #ccc">
+            <p>Название : <b th:text="${city.getKey()}"></b></p>
+            <p>Население: <b th:text="${city.getValue()}"></b></p>
+        </div>
+    </th:block>
+
+    <p th:if="${cityToCount.isEmpty()}">Список пустой!</p>
+
+    <p> Среднее население: <b th:text="${avg}">> </b></p>
+
+
+</head>
+<body>
+
+</body>
+</html>
