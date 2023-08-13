@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<th:block>
+  <div th:each="product : ${productList}" style = "border-bottom: 1px solid #ccc">
+    <p>Категория : <b th:text="${product.getCategory.getName()}"></b></p>
+    <p>Название товара : <b th:text="${product.getName()}"></b></p>
+    <div th:each="value : ${product.getCharacteristicValues()}">
+      <p> <b th:text="${value.getCharacteristic().getName()}  "></b>
+        :
+        <b th:text="${value.getValue()}"></b>
+      </p>
+    </div>
+  </div>
+
+
+</th:block>
+
+</body>
+</html>
