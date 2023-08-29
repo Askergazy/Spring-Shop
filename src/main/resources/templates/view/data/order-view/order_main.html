@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Order Page</title>
+</head>
+<body>
+<h1>Оформление заказа</h1>
+
+<h2>Товары</h2>
+<ul>
+    <li th:each="cartItem : ${cartItemList}">
+        Товар: <span th:text="${cartItem.product.name}"></span><br>
+        Количество: <span th:text="${cartItem.quantity}"></span><br>
+        Цена: <span th:text="${cartItem.getQuantity() * cartItem.getProduct().getPrice()}"></span>
+    </li>
+</ul>
+<p> Общая сумма :<b th:text="${sum}"></b></p>
+<h2>Данные</h2>
+<form method="post" th:action="@{/order}">
+
+    <label for="address">Адрес:</label>
+    <input type="text" id="address" name="address"><br>
+
+    <button type="submit">Оформить заказ</button>
+</form>
+</body>
+</html>

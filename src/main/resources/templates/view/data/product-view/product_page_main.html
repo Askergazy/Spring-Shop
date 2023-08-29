@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProductController</title>
+
+</head>
+<body>
+
+ <h2>Товары</h2>
+
+ <th:block >
+     <a th:href="@{/products/create}">Создать новый товар</a>
+
+     <div th:each="product : ${productList} " >
+         <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"  ></a>
+         <a th:href="@{/products/update(productId=${product.getId()})}"><input type="submit"value="Обновить"></a>
+         <a th:href="@{/products/delete(productId=${product.getId()})}"><input type="submit"value="Удалить"></a>
+         <a th:href="@{/cart/add(productId=${product.getId()})}"><input type="submit"value="Добавить в коризну"></a>
+     </div>
+
+ </th:block>
+
+
+
+</body>
+</html>

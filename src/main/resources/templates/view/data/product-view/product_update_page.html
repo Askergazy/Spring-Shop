@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+</head>
+<body>
+<h1>Обновить товар</h1>
+<form th:action="@{/products/update}" th:object="${product}" method="post">
+
+
+    <input type="hidden" name="productId" th:value="${product.id}">
+    <label>
+        Product Name:
+        <input type="text" th:field="*{name}" required>
+    </label><br>
+
+    <label>
+        Product Price:
+        <input type="number" th:field="*{price}" required>
+    </label><br>
+
+ <br>
+   <label>
+       Характеристики :
+       <div th:each="value : ${product.getCharacteristicValues()}">
+           <b th:text="${value.getCharacteristic().getName()}"></b>
+           <input type="text" name="values" th:value="${value.getValue()}" /><br />
+       </div>
+
+   </label>
+
+
+
+    <button type="submit">Update</button>
+</form>
+<br>
+</body>
+</html>

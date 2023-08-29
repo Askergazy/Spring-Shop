@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product View</title>
+</head>
+<body>
+
+<h2>Информация о товаре</h2>
+
+<th:block>
+    <p>Название товара : <b th:text="${product.getName()}"></b></p>
+    <p>Категория : <b th:text="${product.getCategory().getName()}"></b></p>
+    <p>Цена товара : <b th:text="${product.getPrice()}"></b></p> <br>
+
+
+    <h3>Характеристики</h3>
+    <div th:each="value : ${product.getCharacteristicValues()}">
+        <p><b th:text="${value.getCharacteristic().getName()}  "></b>
+            :
+            <b th:text="${value.getValue()}"></b>
+        </p>
+    </div>
+
+
+
+
+
+    <h3>Отзывы :</h3>
+    <th:block th:if="${reviewIsEmpty}">
+         <p>Отзывов нет</p>
+    </th:block>
+    <p>Средняя оценка : <b th:text="${avg}"></b></p>
+
+
+    <div th:each="review : ${product.getReviews()}"  style = "border-bottom: 1px solid #ccc">
+        <th:block th:if="${review.status}">
+            <p>Пользователь:<b th:text="${review.getUser().getName()}  "></b></p>
+            <p>Оценка:<b th:text="${review.getRating()}  "></b></p>
+            <p>Дата отзыва:<b th:text="${review.getReviewDate()}  "></b></p>
+            <p>Отзыв:<b th:text="${review.getReviewText()}  "></b></p>
+        </th:block>
+
+
+    </div>
+
+
+    <form method="post" th:action="@{/review}">
+
+        <input type="hidden" name="productId" th:value="${product.getId()}"/>
+
+        <label for="rating">Оценка:</label>
+        <input type="number" id="rating" name="rating"><br>
+
+        <label for="reviewText">Отзыв:</label>
+        <input type="text" id="reviewText" name="reviewText"><br>
+
+
+        <button type="submit">Оставить отзыв</button>
+    </form>
+
+
+
+
+</th:block>
+
+
+</body>
+</html>

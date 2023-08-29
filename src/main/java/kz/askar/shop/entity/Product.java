@@ -2,9 +2,8 @@ package kz.askar.shop.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -12,8 +11,6 @@ import java.util.Objects;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "products")
 public class Product {
@@ -22,6 +19,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Integer price;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -30,8 +28,23 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacteristicValue> characteristicValues;
+
+
+
+    public Product(Long id, String name, Category category, List<Review> reviews, List<CharacteristicValue> characteristicValues) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.reviews = reviews;
+        this.characteristicValues = characteristicValues;
+    }
+
+    public Product() {
+
+    }
+
 
     @Override
     public boolean equals(Object o) {

@@ -34,6 +34,9 @@ create table values
     foreign key (product_id) references products (id),
     foreign key (option_id) references options (id)
 );
+DROP TABLE IF EXISTS users CASCADE;
+
+
 
 
 CREATE TABLE users
@@ -45,6 +48,21 @@ CREATE TABLE users
     name              varchar,
     last_name         varchar,
     registration_data timestamp,
+    primary key (id)
+);
+
+
+
+DROP TABLE cart_items CASCADE ;
+
+CREATE TABLE cartItems
+(
+    id         serial8,
+    quantity int4,
+    product_id int8 not null,
+    user_id    int8 not null,
+    foreign key (product_id) references  products(id),
+    foreign key (user_id) references  users(id),
     primary key (id)
 );
 
@@ -61,7 +79,7 @@ CREATE TABLE orders
 
 CREATE TABLE ordered_products
 (
-    id serial8,
+    id         serial8,
     order_id   int8 not null,
     product_id int8 not null,
     count      int2 not null,
@@ -83,6 +101,9 @@ CREATE TABLE reviews
     foreign key (user_id) references users,
     foreign key (product_id) references products
 );
+
+ALTER TABLE orders
+    ADD COLUMN status int2;
 
 
 

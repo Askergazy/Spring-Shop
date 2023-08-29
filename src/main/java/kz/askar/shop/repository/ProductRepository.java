@@ -11,4 +11,15 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     List<Product> findByCategory(Category category);
 
+
+    @Override
+    <S extends Product> S save(S entity);
+
+
+    @Override
+    void delete(Product entity);
+
+
+
+
 }

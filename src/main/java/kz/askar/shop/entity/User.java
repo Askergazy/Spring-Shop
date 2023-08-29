@@ -32,7 +32,7 @@ public class User {
     @Column(name = "last_name")
     String lastName;
 
-    @Column(name = "registration_date")
+    @Column(name = "registration_data")
     String registrationDate;
 
     @OneToMany(mappedBy = "user")

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+</head>
+<body>
+
+<h2> Корзина </h2>
+
+<ul>
+    <li th:each="cartItem : ${cartItems}">
+        <a th:href="@{/products/view(productId=${cartItem.product.getId()})}"
+           th:text="${cartItem.product.getName()}"></a>
+        <span th:text="'Количество:' + ${cartItem.quantity}"></span>
+        <span th:text="'Стоимость: ' + ${cartItem.getQuantity() * cartItem.getProduct().getPrice()}" ></span>
+
+        <form th:action="@{/cart/increaseQuantity}" method="post">
+            <input type="hidden" name="userId" th:value="${user.getId()}"/>
+            <input type="hidden" name="product" th:value="${cartItem.id}"/>
+            <button type="submit">Увеличить</button>
+        </form>
+
+        <form th:action="@{/cart/decreaseQuantity}" method="post">
+            <input type="hidden" name="userId" th:value="${user.getId()}"/>
+            <input type="hidden" name="product" th:value="${cartItem.id}"/>
+            <button type="submit">Уменьшить</button>
+        </form>
+
+        <a th:href="@{/cart/delete(cartItemId=${cartItem.getId()})}"><input type="submit"value="Удалить"></a>
+
+    </li>
+</ul>
+
+<th:block th:if="${!cartItems.isEmpty()}">
+    <p>Общая стоимость: <b th:text="${sum}"></b> </p>
+</th:block>
+
+
+
+
+<form th:if="${!cartItems.isEmpty()} " th:action="@{/cart/deleteAll}" method="post">
+    <input type="hidden" name="userId" th:value="${user.getId()}"/>
+    <button type="submit">Удалить все</button>
+</form>
+
+<form th:if="${!cartItems.isEmpty()}" th:action="@{/order}" method="get">
+    <button type="submit" class="btn btn-primary">Оформить заказ</button>
+</form>
+
+
+<th:block th:if="${cartItems.isEmpty()}">
+    <p>Коризина пуста</p>
+</th:block>
+
+
+
+
+
+</body>
+</html>
