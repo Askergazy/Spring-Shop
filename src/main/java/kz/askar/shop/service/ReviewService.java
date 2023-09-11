@@ -29,10 +29,12 @@ public class ReviewService {
         review.setProduct(product);
         review.setRating(rating);
         review.setReviewText(reviewText);
-        review.setStatus(true);
+        review.setStatus(false);
+
 
 
         reviewRepository.save(review);
 
     }
+
 }

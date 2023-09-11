@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Moderator Page</title>
+</head>
+<body>
+
+
+<th:block >
+
+    <div th:each="review : ${reviewList} " >
+         <div th:if="${!review.status}">
+             <p  th:text="${review.getUser().getName()}"></p>
+             <p  th:text="${review.getProduct().getName()}"></p>
+             <p  th:text="${review.getRating()}"></p>
+             <p th:text="${review.getReviewText()}"></p>
+             <p th:text="${review.getReviewDate()}"></p>
+
+             <a th:href="@{/review/delete(reviewId=${review.getId()})}"><input type="submit"value="Удалить"></a>
+             <a th:href="@{/review/approve(reviewId=${review.getId()})}"><input type="submit"value="Одобрить"></a>
+             <br>
+         </div>
+    </div>
+
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+
+
+<th:block>
+    <h3>Данные пользовательа:</h3>
+   <p> Имя : <b th:text="${user.getName()}"></b> </p>
+   <p> Фамилия :<b th:text="${user.getLastName()}"></b></p>
+
+  <h3>Заказы:</h3>
+  <div th:each=" order : ${user.getOrders()}">
+    <a th:href="@{/order/view(orderId=${order.getId()})}" th:text="${order.getId()}"  ></a>
+  </div>
+
+
+</th:block>
+
+</body>
+</html>

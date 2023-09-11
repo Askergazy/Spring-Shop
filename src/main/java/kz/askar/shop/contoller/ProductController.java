@@ -4,11 +4,11 @@ import kz.askar.shop.entity.*;
 import kz.askar.shop.repository.CategoryRepository;
 import kz.askar.shop.repository.CharacteristicValueRepository;
 import kz.askar.shop.repository.ProductRepository;
+import kz.askar.shop.repository.ReviewRepository;
 import kz.askar.shop.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +21,14 @@ public class ProductController {
     private final CategoryRepository categoryRepository;
     private final CharacteristicValueRepository characteristicValueRepository;
     private final UserService userService;
+    private final ReviewRepository reviewRepository;
 
-    public ProductController(CategoryRepository categoryRepository, ProductRepository productRepository, CharacteristicValueRepository characteristicValueRepository, UserService userService) {
+    public ProductController(CategoryRepository categoryRepository, ProductRepository productRepository, CharacteristicValueRepository characteristicValueRepository, UserService userService, ReviewRepository reviewRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.characteristicValueRepository = characteristicValueRepository;
         this.userService = userService;
+        this.reviewRepository = reviewRepository;
     }
 
 
@@ -71,7 +73,7 @@ public class ProductController {
 
         productRepository.save(product);
 
-        return "redirect:product-view/products";
+        return "redirect:/products";
     }
 
 
@@ -82,12 +84,13 @@ public class ProductController {
         Product product = productRepository.findById(productId).orElseThrow();
 
 
+        User user = userService.getCurrentUser();
+
         model.addAttribute("product", product);
 
         int sum = 0;
         float avg = 0;
         int uploadedReviews = 0;
-
 
 
         for (Review review : product.getReviews()) {
@@ -98,25 +101,32 @@ public class ProductController {
         }
 
 
-
-         if (uploadedReviews != 0){
-             for (Review review : product.getReviews()) {
-                 if (review.isStatus()) {
-                     sum += review.getRating();
-                     uploadedReviews++;
-                 }
-             }
-             avg =(float) sum / uploadedReviews;
-         }else {
-             avg = 0;
-             boolean reviewsIsEmpty = true;
-             model.addAttribute("reviewIsEmpty",reviewsIsEmpty);
-         };
-
-
-
+        if (uploadedReviews != 0) {
+            for (Review review : product.getReviews()) {
+                if (review.isStatus()) {
+                    sum += review.getRating();
+                    uploadedReviews++;
+                }
+            }
+            avg = (float) sum / uploadedReviews;
+        } else {
+            avg = 0;
+            boolean reviewsIsEmpty = true;
+            model.addAttribute("reviewIsEmpty", reviewsIsEmpty);
+        }
 
         model.addAttribute("avg", avg);
+
+
+        Review review = reviewRepository.findByUserAndProduct(user, product);
+
+        boolean check = false;
+
+        if (review == null) {
+            check = true;
+        }
+
+        model.addAttribute("check",check);
 
         return "view/data/product-view/product_view_page";
     }
@@ -124,7 +134,7 @@ public class ProductController {
 
     @GetMapping(path = "/update")
     public String updateProduct(Model model,
-                                    @RequestParam(name = "productId") Long productId) {
+                                @RequestParam(name = "productId") Long productId) {
 
 
         Product product = productRepository.findById(productId).orElseThrow();
@@ -179,12 +189,6 @@ public class ProductController {
 
         return "redirect:product-view/products";
     }
-
-
-
-
-
-
 
 
 }

@@ -44,20 +44,24 @@
 
     </div>
 
+    <th:block th:if="${check}">
+        <form method="post" th:action="@{/review}">
 
-    <form method="post" th:action="@{/review}">
+            <input type="hidden" name="productId" th:value="${product.getId()}"/>
 
-        <input type="hidden" name="productId" th:value="${product.getId()}"/>
+            <label for="rating">Оценка:</label>
+            <input type="number" id="rating" name="rating"><br>
 
-        <label for="rating">Оценка:</label>
-        <input type="number" id="rating" name="rating"><br>
-
-        <label for="reviewText">Отзыв:</label>
-        <input type="text" id="reviewText" name="reviewText"><br>
+            <label for="reviewText">Отзыв:</label>
+            <input type="text" id="reviewText" name="reviewText"><br>
 
 
-        <button type="submit">Оставить отзыв</button>
-    </form>
+            <button type="submit">Оставить отзыв</button>
+        </form>
+    </th:block>
+
+
+
 
 
 
