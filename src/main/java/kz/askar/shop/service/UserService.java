@@ -2,8 +2,8 @@ package kz.askar.shop.service;
 
 import kz.askar.shop.entity.User;
 import kz.askar.shop.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class UserService {
@@ -15,6 +15,8 @@ public class UserService {
     }
 
     public User getCurrentUser() {
-        return userRepository.findById(1L).orElse(null);
+        // return userRepository.findById(1L).orElse(null);
+        return null;
+
     }
 }

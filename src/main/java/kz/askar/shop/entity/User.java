@@ -1,12 +1,15 @@
 package kz.askar.shop.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,29 +24,38 @@ import java.util.Objects;
 public class User {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Enumerated
+
+
+
+    @Enumerated(EnumType.ORDINAL)
     private Role role;
-    String  login;
+
+
+    @NotEmpty(message = "Логин не должен быть пустым")
+    @Size(min = 2,max = 100,message = "Логин должен быть от 2 до 100 символов длниной")
+    String login;
+
+    @NotEmpty(message = "Паоль не должен быть пустым")
     String password;
+
     String name;
 
     @Column(name = "last_name")
     String lastName;
 
     @Column(name = "registration_data")
-    String registrationDate;
+    Timestamp registrationDate;
 
     @OneToMany(mappedBy = "user")
 
-    private List<Review>reviews;
+    private List<Review> reviews;
 
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
 
     private List<Order> orders = new ArrayList<>();
-
 
 
     @Override
@@ -65,12 +77,12 @@ public class User {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-               "id = " + id + ", " +
-               "role = " + role + ", " +
-               "login = " + login + ", " +
-               "password = " + password + ", " +
-               "name = " + name + ", " +
-               "lastName = " + lastName + ", " +
-               "registrationDate = " + registrationDate + ")";
+                "id = " + id + ", " +
+                "role = " + role + ", " +
+                "login = " + login + ", " +
+                "password = " + password + ", " +
+                "name = " + name + ", " +
+                "lastName = " + lastName + ", " +
+                "registrationDate = " + registrationDate + ")";
     }
 }

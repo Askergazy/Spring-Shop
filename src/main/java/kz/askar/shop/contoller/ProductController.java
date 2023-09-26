@@ -122,7 +122,7 @@ public class ProductController {
 
         boolean check = false;
 
-        if (review == null) {
+        if (review == null && user != null) {
             check = true;
         }
 
