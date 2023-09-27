@@ -19,10 +19,10 @@ public class UserDetailService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 
-        Optional<User> user = userRepository.findByName(name);
+    @Override
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByLogin(login);
 
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found");

@@ -15,14 +15,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+
+                .authorizeRequests()
                 .requestMatchers("/auth/login", "/auth/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/auth/login")
                 .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/products", true)
-                .failureUrl("/auth/login?error")
+                .defaultSuccessUrl("/products")
                 .and()
                 .logout()
                 .logoutUrl("/auth/logout")
