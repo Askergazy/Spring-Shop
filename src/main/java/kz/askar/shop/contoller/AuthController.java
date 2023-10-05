@@ -1,11 +1,13 @@
 package kz.askar.shop.contoller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import kz.askar.shop.entity.User;
 import kz.askar.shop.service.RegistrationService;
 import kz.askar.shop.util.UserValidator;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,7 +29,7 @@ public class AuthController {
 
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(HttpServletRequest request, Model model) {
 
 
         return "/view/data/auth/login";

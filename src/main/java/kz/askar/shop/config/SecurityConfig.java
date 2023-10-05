@@ -1,5 +1,6 @@
 package kz.askar.shop.config;
 
+import kz.askar.shop.service.UserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,23 +14,30 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+
+    private UserDetailService userDetailService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-
+                .csrf()
+                .and()
                 .authorizeRequests()
                 .requestMatchers("/auth/login", "/auth/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/auth/login")
-                .loginProcessingUrl("/process_login")
+                .usernameParameter("login")
                 .defaultSuccessUrl("/products")
                 .and()
                 .logout()
-                .logoutUrl("/auth/logout")
+                .logoutUrl("/logout")
                 .logoutSuccessUrl("/auth/login");
         return http.build();
     }
+
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
