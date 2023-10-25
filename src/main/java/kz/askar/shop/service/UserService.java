@@ -18,7 +18,6 @@ public class UserService {
     }
 
     public User getCurrentUser() {
-//         return userRepository.findById(1L).orElse(null);
 
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();

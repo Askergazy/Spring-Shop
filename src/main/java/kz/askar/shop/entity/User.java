@@ -37,11 +37,14 @@ public class User {
     @Size(min = 2,max = 100,message = "Логин должен быть от 2 до 100 символов длниной")
     String login;
 
-    @NotEmpty(message = "Паоль не должен быть пустым")
+    @NotEmpty(message = "Пароль не должен быть пустым")
     String password;
 
+
+    @NotEmpty
     String name;
 
+    @NotEmpty
     @Column(name = "last_name")
     String lastName;
 

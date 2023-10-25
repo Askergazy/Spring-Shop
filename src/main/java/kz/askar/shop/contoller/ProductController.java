@@ -9,8 +9,10 @@ import kz.askar.shop.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/products")
@@ -32,10 +34,14 @@ public class ProductController {
     }
 
 
-    @RequestMapping(path = "")
-    public String showProducts(Model model) {
+    @RequestMapping(path = "/admin")
+    public String showProductsAdmin(Model model) {
 
         List<Product> products = new ArrayList<>();
+
+        List<Category> categories = categoryRepository.findAll();
+
+        model.addAttribute("categories",categories);
 
         products = productRepository.findAll();
 
@@ -43,8 +49,76 @@ public class ProductController {
             model.addAttribute("productList", products);
         }
 
-        return "view/data/product-view/product_page_main";
+        return "/view/data/product-view/product_page_main_admin";
     }
+
+    @RequestMapping(path = "/user")
+    public String showProductsUser(Model model) {
+
+        List<Product> products = productRepository.findAll();
+
+        List<Category> categories = categoryRepository.findAll();
+
+        model.addAttribute("categories",categories);
+
+        if (!products.isEmpty()) {
+            model.addAttribute("productList", products);
+        }
+
+        return "/view/data/product-view/product_page_user";
+    }
+
+
+
+    @RequestMapping("/user/category/{id}")
+    public String showProductsByCategory(Model model,@PathVariable Long id){
+
+        Optional<Category> category = categoryRepository.findById(id);
+
+        List<Product> products = productRepository.findByCategory(category);
+
+        model.addAttribute("products",products);
+
+        return "/view/data/product-view/product_page_by_category";
+    }
+
+
+    @RequestMapping("/admin/category/{id}")
+    public String showProductsByCategoryAdmin(Model model,@PathVariable Long id){
+
+        Optional<Category> category = categoryRepository.findById(id);
+
+        List<Product> products = productRepository.findByCategory(category);
+
+        model.addAttribute("products",products);
+
+        return "/view/data/product-view/product_page_by_category_admin";
+    }
+
+
+
+
+    @GetMapping("/user/search")
+    public String searchByName(@RequestParam("name") String name, Model model) {
+        List<Product> products = productRepository.findByNameIgnoreCaseContaining(name);
+        model.addAttribute("products", products);
+        model.addAttribute("name",name);
+        return "/view/data/product-view/product_result_search";
+    }
+
+
+
+    @GetMapping("/admin/search")
+    public String searchByNameForAdmin(@RequestParam("name") String name, Model model) {
+        List<Product> products = productRepository.findByNameIgnoreCaseContaining(name);
+        model.addAttribute("products", products);
+        model.addAttribute("name",name);
+        return "/view/data/product-view/product_result_search_forAdmin";
+    }
+
+
+
+
 
 
     @GetMapping(path = "/create")
@@ -73,7 +147,7 @@ public class ProductController {
 
         productRepository.save(product);
 
-        return "redirect:/products";
+        return "redirect:/products/user";
     }
 
 
@@ -85,6 +159,7 @@ public class ProductController {
 
 
         User user = userService.getCurrentUser();
+        model.addAttribute("user",user);
 
         model.addAttribute("product", product);
 
@@ -125,6 +200,13 @@ public class ProductController {
         if (review == null && user != null) {
             check = true;
         }
+
+        boolean userIsEmpty = false;
+        if (user == null){
+            userIsEmpty = true;
+        }
+
+        model.addAttribute("userIsEmpty",userIsEmpty);
 
         model.addAttribute("check",check);
 
@@ -187,7 +269,7 @@ public class ProductController {
 
         productRepository.delete(product);
 
-        return "redirect:product-view/products";
+        return "redirect:product-view/products/admin";
     }
 
 

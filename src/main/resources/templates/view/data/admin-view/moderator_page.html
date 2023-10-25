@@ -10,9 +10,8 @@
 
 <th:block >
 
-    <div th:each="review : ${reviewList} " >
+    <div th:each="review : ${reviewList}" >
          <div th:if="${!review.status}">
-             <p  th:text="${review.getUser().getName()}"></p>
              <p  th:text="${review.getProduct().getName()}"></p>
              <p  th:text="${review.getRating()}"></p>
              <p th:text="${review.getReviewText()}"></p>

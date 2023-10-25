@@ -23,27 +23,34 @@
     </div>
 
 
-
-
-
     <h3>Отзывы :</h3>
     <th:block th:if="${reviewIsEmpty}">
-         <p>Отзывов нет</p>
+        <p>Отзывов нет</p>
     </th:block>
     <p>Средняя оценка : <b th:text="${avg}"></b></p>
 
 
-    <div th:each="review : ${product.getReviews()}"  style = "border-bottom: 1px solid #ccc">
+    <div th:each="review : ${product.getReviews()}" style="border-bottom: 1px solid #ccc">
         <th:block th:if="${review.status}">
             <p>Пользователь:<b th:text="${review.getUser().getName()}  "></b></p>
             <p>Оценка:<b th:text="${review.getRating()}  "></b></p>
             <p>Дата отзыва:<b th:text="${review.getReviewDate()}  "></b></p>
             <p>Отзыв:<b th:text="${review.getReviewText()}  "></b></p>
         </th:block>
-
-
     </div>
 
+
+    <div th:if="${userIsEmpty}">
+         <b>Авторизуйтесь чтобы оставить отзыв</b>
+        <form action="/auth/login">
+
+            <button>Login</button>
+        </form>
+    </div>
+
+    <div th:if="${!userIsEmpty}">
+        <b th:if="${!check}">Отзыв оставлен</b>
+    </div>
 
     <th:block th:if="${check}">
         <form method="post" th:action="@{/review}">
@@ -60,11 +67,6 @@
             <button type="submit">Оставить отзыв</button>
         </form>
     </th:block>
-
-
-
-
-
 
 
 </th:block>

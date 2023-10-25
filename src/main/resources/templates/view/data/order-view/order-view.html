@@ -9,7 +9,8 @@
 
 <th:block>
 
-    <p> Пользователь:<b th:text="${order.getUser().getName()}"></b></p>
+    <p> Имя:<b th:text="${order.getUser().getName()}"></b>
+    <p> Фамилия:<b th:text="${order.getUser().getLastName()}"></b></p>
     <p> Адрес : <b th:text="${order.getAddress()}"></b></p>
     <p> Дата заказа:<b th:text="${order.getOrderDate()}"></b></p>
     <div th:each="orderItem : ${order.getOrderedProducts()}">
@@ -18,7 +19,7 @@
         <p> Цена : <b th:text="${orderItem.getProduct().getPrice() * orderItem.getCount()}"></b></p>
     </div>
 
-    <p> Общая сумма : <b th:text="${sum}"></b> </p>
+    <p> Общая сумма : <b th:text="${sum}"></b></p>
 </th:block>
 
 <form th:action="@{/order/view}" th:object="${order}" method="post">
@@ -26,16 +27,16 @@
 
     <div th:if="${user.role.equals(user.role.ADMIN)}">
         <select name="status">
-            <option th:each="status : ${statuses}" th:value="${status}" th:text="${status.name()}"></option>
+            <option th:text="${order.status}"></option>
+            <option  th:if="${status != order.status}" th:each="status : ${statuses}" th:value="${status}" th:text="${status.name()}"></option>
         </select>
         <button type="submit">Изменить статус</button>
     </div>
 
 
     <div th:if="${user.role.equals(user.role.USER)}">
-       <p> Статус:<b th:text="${order.status}"></b></p>
+        <p> Статус:<b th:text="${order.status}"></b></p>
     </div>
-
 
 
 </form>

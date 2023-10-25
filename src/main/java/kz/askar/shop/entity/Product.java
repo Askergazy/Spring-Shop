@@ -1,8 +1,8 @@
 package kz.askar.shop.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,9 +25,11 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacteristicValue> characteristicValues;
 

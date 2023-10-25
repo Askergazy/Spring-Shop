@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ProductControllerAdmin</title>
+
+</head>
+<body>
+
+<h2>Товары</h2>
+
+<div>
+    <form th:action="@{/products/admin/search}" method="get">
+        <input type="text" id="name" name="name" placeholder="Поиск по имени товара">
+        <button type="submit">Поиск</button>
+    </form>
+
+
+    </br>
+    <select onchange="location.href = '/products/admin/category/' + this.value;">
+        <option value="" selected disabled hidden>Выберите категорию</option>
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+    </select>
+
+    <br/>
+
+
+</div>
+
+
+</body>
+</html>

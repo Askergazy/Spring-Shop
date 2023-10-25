@@ -6,7 +6,7 @@
     <title>Login</title>
 </head>
 <body>
-<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
 <form name="f" method="post" th:action="@{/auth/login}">
     <label for="login">Введите имя пользователя:</label>
@@ -17,11 +17,15 @@
     <br/>
     <input type="submit" value="Login">
 </form>
+<form action="/auth/registration">
+
+    <button>Registrtion</button>
+</form>
+
 
 <div th:if="${param.error}" class="error-message">
     <p th:text="${param.error}"></p>
 </div>
-
 
 
 </body>

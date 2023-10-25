@@ -51,7 +51,6 @@ public class ReviewController {
     @RequestMapping("/moderate")
     public String moderate(Model model) {
 
-        User admin = userService.getCurrentUser();
 
         List<Review> reviewList = reviewRepository.findAll();
 

@@ -13,7 +13,7 @@
     <input type="number" name="price" placeholder="Цена">
 
     <select name="categoryId">
-        <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}"></option>
+        <option th:each="category : ${categoryList}" th:value="${category.getId()}" th:text="${category.name}"></option>
     </select>
 
     <button type="submit">Submit</button>
