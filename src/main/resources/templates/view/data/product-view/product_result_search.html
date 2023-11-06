@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Result</title>
+    <link rel="stylesheet" href="/css/product_page_user.css">
+
+</head>
+<body>
+
+<div th:insert="fragments/header_example::headerFragment"></div>
+
+<br>
+
+<div th:if="${products.isEmpty()}">
+    <b>Ничего не найдено</b>
+</div>
+
+<div   th:each="product : ${products} " >
+    <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"  ></a>
+</div>
+
+</body>
+</html>

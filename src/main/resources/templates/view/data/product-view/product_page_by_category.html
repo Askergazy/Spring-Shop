@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products By Category</title>
+    <link rel="stylesheet" href="/css/product_page_user.css">
+
+</head>
+<body>
+<div th:insert="fragments/header_example::headerFragment"></div>
+
+<br>
+
+    <h2 th:text="${products.get(0).getCategory().name}"> </h2>
+    <div  th:each="product : ${products} " >
+        <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"  ></a>
+        <b th:text="${product.getPrice()}"></b>
+        <a th:href="@{/cart/add(productId=${product.getId()})}"><input type="submit" value="Добавить в коризну"></a>
+    </div>
+</body>
+</html>

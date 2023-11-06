@@ -2,9 +2,12 @@ package kz.askar.shop.contoller;
 
 
 import kz.askar.shop.entity.CartItem;
+import kz.askar.shop.entity.Category;
 import kz.askar.shop.entity.User;
 import kz.askar.shop.service.CartItemService;
+import kz.askar.shop.service.CategoryService;
 import kz.askar.shop.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,23 +17,30 @@ import java.util.List;
 
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping(path = "/cart")
 public class CartController {
 
     private final CartItemService cartItemService;
     private final UserService userService;
+    private final CategoryService categoryService;
 
 
-    public CartController(CartItemService cartItemService, UserService userService) {
-        this.cartItemService = cartItemService;
-        this.userService = userService;
-    }
 
 
     @RequestMapping(path = "")
     public String cart(Model model) {
 
+        List<Category> categories = categoryService.findAll();
+        model.addAttribute("categories",categories);
+
         User user = userService.getCurrentUser();
+
+        if (user == null){
+            boolean userIsEmpty = true;
+            model.addAttribute("userIsEmpty",userIsEmpty);
+            return "redirect:/auth/login";
+        }
 
         List<CartItem> list = cartItemService.getCartItemsByUser(user);
 

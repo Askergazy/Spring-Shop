@@ -1,11 +1,11 @@
 package kz.askar.shop.contoller;
 
 import kz.askar.shop.entity.*;
-import kz.askar.shop.repository.CategoryRepository;
-import kz.askar.shop.repository.CharacteristicValueRepository;
-import kz.askar.shop.repository.ProductRepository;
-import kz.askar.shop.repository.ReviewRepository;
+import kz.askar.shop.service.CategoryService;
+import kz.askar.shop.service.ProductService;
+import kz.askar.shop.service.ReviewService;
 import kz.askar.shop.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,23 +15,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping(path = "/products")
 public class ProductController {
 
 
-    private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
-    private final CharacteristicValueRepository characteristicValueRepository;
+    private final ProductService productService;
+    private final CategoryService categoryService;
     private final UserService userService;
-    private final ReviewRepository reviewRepository;
+    private final ReviewService reviewService;
 
-    public ProductController(CategoryRepository categoryRepository, ProductRepository productRepository, CharacteristicValueRepository characteristicValueRepository, UserService userService, ReviewRepository reviewRepository) {
-        this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
-        this.characteristicValueRepository = characteristicValueRepository;
-        this.userService = userService;
-        this.reviewRepository = reviewRepository;
-    }
+
 
 
     @RequestMapping(path = "/admin")
@@ -39,11 +33,11 @@ public class ProductController {
 
         List<Product> products = new ArrayList<>();
 
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryService.findAll();
 
         model.addAttribute("categories",categories);
 
-        products = productRepository.findAll();
+        products = productService.findAll();
 
         if (!products.isEmpty()) {
             model.addAttribute("productList", products);
@@ -55,14 +49,21 @@ public class ProductController {
     @RequestMapping(path = "/user")
     public String showProductsUser(Model model) {
 
-        List<Product> products = productRepository.findAll();
+        User user = userService.getCurrentUser();
 
-        List<Category> categories = categoryRepository.findAll();
+        List<Product> products =productService.findAll();
+
+        List<Category> categories = categoryService.findAll();
 
         model.addAttribute("categories",categories);
 
         if (!products.isEmpty()) {
             model.addAttribute("productList", products);
+        }
+
+        if (user == null){
+            boolean userIsEmpty = true;
+            model.addAttribute("userIsEmpty",userIsEmpty);
         }
 
         return "/view/data/product-view/product_page_user";
@@ -73,9 +74,19 @@ public class ProductController {
     @RequestMapping("/user/category/{id}")
     public String showProductsByCategory(Model model,@PathVariable Long id){
 
-        Optional<Category> category = categoryRepository.findById(id);
+        User user = userService.getCurrentUser();
 
-        List<Product> products = productRepository.findByCategory(category);
+        if (user == null){
+            boolean userIsEmpty = true;
+            model.addAttribute("userIsEmpty",userIsEmpty);
+        }
+
+        List<Category> categories = categoryService.findAll();
+        model.addAttribute("categories",categories);
+
+        Optional<Category> category = categoryService.findById(id);
+
+        List<Product> products = productService.findByCategory(category);
 
         model.addAttribute("products",products);
 
@@ -86,9 +97,9 @@ public class ProductController {
     @RequestMapping("/admin/category/{id}")
     public String showProductsByCategoryAdmin(Model model,@PathVariable Long id){
 
-        Optional<Category> category = categoryRepository.findById(id);
+        Optional<Category> category = categoryService.findById(id);
 
-        List<Product> products = productRepository.findByCategory(category);
+        List<Product> products = productService.findByCategory(category);
 
         model.addAttribute("products",products);
 
@@ -100,7 +111,18 @@ public class ProductController {
 
     @GetMapping("/user/search")
     public String searchByName(@RequestParam("name") String name, Model model) {
-        List<Product> products = productRepository.findByNameIgnoreCaseContaining(name);
+        List<Category> categories =categoryService.findAll();
+
+        model.addAttribute("categories",categories);
+
+        User user = userService.getCurrentUser();
+
+        if (user == null){
+            boolean userIsEmpty = true;
+            model.addAttribute("userIsEmpty",userIsEmpty);
+        }
+
+        List<Product> products = productService.findByNameIgnoreCaseContaining(name);
         model.addAttribute("products", products);
         model.addAttribute("name",name);
         return "/view/data/product-view/product_result_search";
@@ -110,7 +132,7 @@ public class ProductController {
 
     @GetMapping("/admin/search")
     public String searchByNameForAdmin(@RequestParam("name") String name, Model model) {
-        List<Product> products = productRepository.findByNameIgnoreCaseContaining(name);
+        List<Product> products = productService.findByNameIgnoreCaseContaining(name);
         model.addAttribute("products", products);
         model.addAttribute("name",name);
         return "/view/data/product-view/product_result_search_forAdmin";
@@ -123,7 +145,7 @@ public class ProductController {
 
     @GetMapping(path = "/create")
     public String showEmptyForm(Model model) {
-        List<Category> categoryList = categoryRepository.findAll();
+        List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryList", categoryList);
 
 
@@ -138,14 +160,14 @@ public class ProductController {
                              @RequestParam(name = "categoryId") Long categoryId) {
 
 
-        Category category = categoryRepository.findById(categoryId).orElseThrow();
+        Category category = categoryService.findById(categoryId).orElseThrow();
 
         Product product = new Product();
         product.setName(name);
         product.setPrice(price);
         product.setCategory(category);
 
-        productRepository.save(product);
+        productService.save(product);
 
         return "redirect:/products/user";
     }
@@ -155,11 +177,18 @@ public class ProductController {
     public String viewProduct(Model model,
                               @RequestParam(name = "productId", required = false) Long productId) {
 
-        Product product = productRepository.findById(productId).orElseThrow();
+
+        List<Category> categories = categoryService.findAll();
+        model.addAttribute("categories",categories);
+
+
+        Product product = productService.findById(productId).orElseThrow();
 
 
         User user = userService.getCurrentUser();
         model.addAttribute("user",user);
+
+
 
         model.addAttribute("product", product);
 
@@ -193,7 +222,7 @@ public class ProductController {
         model.addAttribute("avg", avg);
 
 
-        Review review = reviewRepository.findByUserAndProduct(user, product);
+        Review review = reviewService.findByUserAndProduct(user, product);
 
         boolean check = false;
 
@@ -219,7 +248,7 @@ public class ProductController {
                                 @RequestParam(name = "productId") Long productId) {
 
 
-        Product product = productRepository.findById(productId).orElseThrow();
+        Product product = productService.findById(productId).orElseThrow();
         model.addAttribute("product", product);
 
 
@@ -238,7 +267,7 @@ public class ProductController {
         model.addAttribute("productId", productId);
 
 
-        Product product = productRepository.findById(productId).orElseThrow();
+        Product product = productService.findById(productId).orElseThrow();
 
 
         product.setName(name);
@@ -255,7 +284,7 @@ public class ProductController {
         product.setCharacteristicValues(characteristicValues);
 
 
-        productRepository.save(product);
+        productService.save(product);
 
 
         return "redirect:/products/view?productId=" + productId;
@@ -265,9 +294,9 @@ public class ProductController {
     @GetMapping(path = "/delete")
     public String deleteProductPost(@PathVariable("productId") Long productId) {
 
-        Product product = productRepository.findById(productId).orElseThrow();
+        Product product = productService.findById(productId).orElseThrow();
 
-        productRepository.delete(product);
+        productService.delete(product);
 
         return "redirect:product-view/products/admin";
     }

@@ -1,11 +1,11 @@
 package kz.askar.shop.contoller;
 
 import kz.askar.shop.entity.*;
-import kz.askar.shop.repository.OrderRepository;
 import kz.askar.shop.service.CartItemService;
 import kz.askar.shop.service.OrderService;
 import kz.askar.shop.service.OrderedProductService;
 import kz.askar.shop.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/order")
 public class OrderController {
 
@@ -23,15 +24,6 @@ public class OrderController {
     private final CartItemService cartItemService;
     private final OrderedProductService orderedProductService;
     private final OrderService orderService;
-    private final OrderRepository orderRepository;
-
-    public OrderController(UserService userService, CartItemService cartItemService, OrderedProductService orderedProductService, OrderService orderService, OrderRepository orderRepository) {
-        this.userService = userService;
-        this.cartItemService = cartItemService;
-        this.orderedProductService = orderedProductService;
-        this.orderService = orderService;
-        this.orderRepository = orderRepository;
-    }
 
 
     @GetMapping("")
@@ -81,7 +73,7 @@ public class OrderController {
     @GetMapping("/view")
     public String orderView(@RequestParam("orderId") Long orderId,
                             Model model){
-        Order order = orderRepository.findById(orderId).orElseThrow();
+        Order order = orderService.findById(orderId).orElseThrow();
 
 
         int sum = 0;
@@ -109,10 +101,10 @@ public class OrderController {
 
 
 
-        Order order = orderRepository.findById(orderId).orElseThrow();
+        Order order = orderService.findById(orderId).orElseThrow();
 
         order.setStatus(status);
-        orderRepository.save(order);
+        orderService.save(order);
 
         return "redirect:/order/view?orderId=" + orderId;
     }
@@ -124,7 +116,7 @@ public class OrderController {
     @GetMapping("/moderate")
     public String moderateOrders(Model model){
 
-        List<Order> orders = orderRepository.findAll();
+        List<Order> orders = orderService.findAll();
 
         model.addAttribute("orders",orders);
 

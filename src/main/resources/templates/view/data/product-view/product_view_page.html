@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Product View</title>
+    <link rel="stylesheet" href="/css/product_page_user.css">
+
 </head>
 <body>
+
+
+<div th:insert="fragments/header_example::headerFragment"></div>
+<br>
+
+
 
 <h2>Информация о товаре</h2>
 
@@ -21,6 +29,8 @@
             <b th:text="${value.getValue()}"></b>
         </p>
     </div>
+
+    <a th:href="@{/cart/add(productId=${product.getId()})}"><input type="submit" value="Добавить в коризну"></a>
 
 
     <h3>Отзывы :</h3>

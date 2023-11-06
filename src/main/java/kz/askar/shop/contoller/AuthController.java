@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import kz.askar.shop.entity.User;
 import kz.askar.shop.service.RegistrationService;
 import kz.askar.shop.util.UserValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,16 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
 
     private final UserValidator userValidator;
     private final RegistrationService registrationService;
 
-    public AuthController(UserValidator userValidator, RegistrationService registrationService) {
-        this.userValidator = userValidator;
-        this.registrationService = registrationService;
-    }
 
 
     @GetMapping("/login")

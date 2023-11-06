@@ -5,19 +5,18 @@ import kz.askar.shop.entity.CartItem;
 import kz.askar.shop.entity.Order;
 import kz.askar.shop.entity.OrderedProduct;
 import kz.askar.shop.repository.OrderedProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderedProductService {
 
 
     private final OrderedProductRepository orderedProductRepository;
 
-    public OrderedProductService(OrderedProductRepository orderedProductRepository) {
-        this.orderedProductRepository = orderedProductRepository;
-    }
 
 
     public  void createOrderedProduct(List<CartItem> cartItemList, Order order){
@@ -33,5 +32,9 @@ public class OrderedProductService {
 
             orderedProductRepository.save(orderedProduct);
         }
+    }
+
+    private void save(OrderedProduct orderedProduct) {
+        orderedProductRepository.save(orderedProduct);
     }
 }

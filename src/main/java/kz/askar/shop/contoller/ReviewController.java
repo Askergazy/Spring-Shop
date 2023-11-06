@@ -4,33 +4,29 @@ package kz.askar.shop.contoller;
 import kz.askar.shop.entity.Product;
 import kz.askar.shop.entity.Review;
 import kz.askar.shop.entity.User;
-import kz.askar.shop.repository.ProductRepository;
-import kz.askar.shop.repository.ReviewRepository;
+import kz.askar.shop.service.ProductService;
 import kz.askar.shop.service.ReviewService;
 import kz.askar.shop.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 
 
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping(path = "/review")
 public class ReviewController {
 
     private final ReviewService reviewService;
     private final UserService userService;
-    private final ProductRepository productRepository;
-    private final ReviewRepository reviewRepository;
+    private final ProductService productService;
 
-    public ReviewController(ReviewService reviewService, UserService userService, ProductRepository productRepository, ReviewRepository reviewRepository) {
-        this.reviewService = reviewService;
-        this.userService = userService;
-        this.productRepository = productRepository;
-        this.reviewRepository = reviewRepository;
-    }
+
 
 
     @RequestMapping("")
@@ -39,7 +35,7 @@ public class ReviewController {
                              @RequestParam("productId") Long productId,
                              Model model) {
 
-        Product product = productRepository.findById(productId).orElseThrow();
+        Product product = productService.findById(productId).orElseThrow();
         User user = userService.getCurrentUser();
 
         reviewService.addReview(user, product, rating, reviewText);
@@ -52,7 +48,7 @@ public class ReviewController {
     public String moderate(Model model) {
 
 
-        List<Review> reviewList = reviewRepository.findAll();
+        List<Review> reviewList = reviewService.findAll();
 
         model.addAttribute("reviewList", reviewList);
 
@@ -64,9 +60,9 @@ public class ReviewController {
     public String deleteReview(@RequestParam("reviewId") Long reviewId) {
 
 
-        Review review = reviewRepository.findById(reviewId).orElseThrow();
+        Review review = reviewService.findById(reviewId).orElseThrow();
 
-        reviewRepository.delete(review);
+        reviewService.delete(review);
 
 
         return "redirect:/review/moderate";
@@ -76,11 +72,11 @@ public class ReviewController {
     @RequestMapping("/approve")
     public String approveReview(@RequestParam("reviewId") Long reviewId) {
 
-        Review review = reviewRepository.findById(reviewId).orElseThrow();
+        Review review = reviewService.findById(reviewId).orElseThrow();
 
         review.setStatus(true);
 
-        reviewRepository.save(review);
+        reviewService.save(review);
 
         return "redirect:/review/moderate";
     }
