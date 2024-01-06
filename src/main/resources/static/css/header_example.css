@@ -1,0 +1,99 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.body{
+ background-color: lightgrey;
+}
+
+.header {
+
+     background-color: ghostwhite;
+     border-bottom: 1px solid #ccc;
+ }
+
+.logo{
+    width: 70px;
+}
+
+ .header-container {
+     height:70px;
+     width: 60%;
+     margin: 0 auto;
+     display: flex;
+     align-items: center;
+     justify-content: space-between; }
+
+.search {
+    border-radius: 5px;
+    display: flex; }
+
+.search input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    padding: 10px;
+    outline: none; }
+
+.search button {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #33c52d;
+    color: white;
+    padding: 8px;
+    cursor: pointer; }
+
+.categories {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    z-index: 1;
+}
+
+
+
+.filter {
+    position: relative;
+}
+
+.filter select {
+    appearance: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #33c52d;
+    color: white;
+    padding: 8px;
+    cursor: pointer;
+    outline: none; }
+
+.filter::after {
+    content: none;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    border: 5px solid transparent;
+    border-top-color: #1abc9c;
+    pointer-events: none; }
+
+.header .nav a  {
+    color: #33c52d;
+    text-decoration: none;
+    border: 1px solid ;
+    border-radius: 5px;
+    padding: 10px; }
+
+.header .nav a:hover {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: white;
+    background-color: #33c52d;
+}
+
+
+
+
+
