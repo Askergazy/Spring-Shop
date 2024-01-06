@@ -11,7 +11,7 @@
 <div th:insert="fragments/header_example::headerFragment"></div>
 
 
-<div class="filter">
+<div class="filter1">
     <select onchange="location.href = '/products/createByCategory' + this.value;">
         <option value="" selected disabled hidden>Выберите категорию</option>
         <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
@@ -20,22 +20,6 @@
 
 
 
-<!--<div class="form-container">-->
-<!--    <h2>Создать Товар</h2>-->
-
-<!--    <form th:action="@{/products/createByCategory{id}" method="post" enctype="multipart/form-data" class="product-form">-->
-<!--        <input type="text" name="name" placeholder="Название">-->
-<!--        <input type="number" name="price" placeholder="Цена">-->
-
-<!--        <select name="categoryId">-->
-<!--            <option th:each="category : ${categoryList}" th:value="${category.getId()}" th:text="${category.name}"></option>-->
-<!--        </select>-->
-
-<!--        <input type="file" name="image">-->
-
-<!--        <button type="submit">Создать</button>-->
-<!--    </form>-->
-</div>
 </body>
 
 
@@ -43,7 +27,5 @@
 
 
 
-
-</body>
 </html>
 
