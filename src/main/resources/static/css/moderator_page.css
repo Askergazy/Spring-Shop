@@ -1,0 +1,37 @@
+*{
+    box-sizing: border-box;
+}
+
+
+.review-item {
+    margin: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.product-name,
+.rating,
+.review-text,
+.review-date {
+    margin-bottom: 10px;
+}
+
+.delete-button,
+.approve-button {
+    display: inline-block;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    background-color: #33c52d;
+    margin-top: 10px;
+}
+
+.delete-button:hover,
+.approve-button:hover {
+    filter: brightness(80%);
+}

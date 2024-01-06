@@ -54,7 +54,7 @@ public class AuthController {
 
 
 
-        return "redirect:/view/data/auth/login";
+        return  "redirect:/login";
     }
 
 

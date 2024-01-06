@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Products By Category</title>
-    <link rel="stylesheet" href="/css/product_page_user.css">
+    <link rel="stylesheet" href="/css/product_page_by_category.css">
 
 </head>
 <body>
@@ -11,11 +11,28 @@
 
 <br>
 
-    <h2 th:text="${products.get(0).getCategory().name}"> </h2>
-    <div  th:each="product : ${products} " >
-        <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"  ></a>
+<div class="label-category">
+    <h2  th:text="${products.get(0).getCategory().name}"></h2>
+</div>
+
+
+<div class="product-list">
+    <div th:if="${!#authorization.expression('hasRole(''ADMIN'')')}" th:each="product : ${products}" class="product-item">
+        <img th:src="@{'/images/' + ${product.image}}" alt="Product Image" width="75"/>
+        <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"></a>
         <b th:text="${product.getPrice()}"></b>
-        <a th:href="@{/cart/add(productId=${product.getId()})}"><input type="submit" value="Добавить в коризну"></a>
+        <a th:href="@{/cart/add(productId=${product.getId()})}" class="add-to-cart-button">Добавить в корзину</a>
     </div>
+
+    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:each="product : ${products}" class="admin-product-item">
+        <img th:src="@{'/images/' + ${product.image}}" alt="Product Image" width="75"/>
+        <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"></a>
+        <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getPrice()}"></a>
+        <a th:href="@{/cart/add(productId=${product.getId()})}" class="add-to-cart-button">Добавить в корзину</a>
+        <a th:href="@{/products/update(productId=${product.getId()})}" class="update-button">Обновить</a>
+        <a th:href="@{/products/delete(productId=${product.getId()})}" class="delete-button">Удалить</a>
+    </div>
+</div>
+
 </body>
 </html>

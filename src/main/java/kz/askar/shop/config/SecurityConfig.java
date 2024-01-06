@@ -19,27 +19,36 @@ public class SecurityConfig {
     private UserDetailService userDetailService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-        http
+
+        httpSecurity
+
                 .csrf()
                 .and()
                 .authorizeRequests()
-                .requestMatchers("/review/moderate","/order/moderate","/products/admin",
-                        "products/admin/category/{id}","products/admin/search","products/update","products/delete").hasRole(Role.ADMIN.name())
-                .requestMatchers("/auth/login", "/auth/registration","/products/user","/products/view").permitAll()
-                .anyRequest().permitAll()
+                .requestMatchers("/review/moderate", "/order/moderate", "/products/admin",
+                        "products/admin/category/{id}", "products/admin/search", "products/update", "products/delete","products/create").hasRole(Role.ADMIN.name())
+                .requestMatchers("/cart","/cart/add").authenticated()
+                .requestMatchers("/login", "auth/registration", "/products/main", "/products/view").permitAll()
                 .and()
-                .formLogin().loginPage("/auth/login")
-                .usernameParameter("login")
-                .defaultSuccessUrl("/products/user")
+                .logout().logoutSuccessUrl("/products/main")
                 .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/auth/login");
-        return http.build();
-    }
+                .formLogin(httpSecurityFormLoginConfigurer -> {
+                    httpSecurityFormLoginConfigurer.defaultSuccessUrl("/products/main");
+                });
 
+//                .formLogin().loginPage("/auth/login")
+//                .usernameParameter("login")
+//                .defaultSuccessUrl("/products/user")
+//                .and()
+//                .logout()
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/auth/login");
+
+
+        return httpSecurity.build();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

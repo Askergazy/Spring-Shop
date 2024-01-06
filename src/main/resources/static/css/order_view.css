@@ -1,0 +1,60 @@
+*{
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+}
+
+.order-details-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ordered-item {
+    margin-bottom: 15px;
+}
+
+.order-form {
+    margin-top: 20px;
+}
+
+.admin-section,
+.user-section {
+    margin-top: 15px;
+}
+
+.admin-section select,
+.admin-section button,
+.user-section p {
+    margin-bottom: 10px;
+}
+
+
+
+.admin-section button,
+.user-section p {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #33c52d;
+    font-size: 1rem;
+}
+.option{
+    padding: 5px;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+.admin-section button:hover {
+    background-color: #05e800;
+}

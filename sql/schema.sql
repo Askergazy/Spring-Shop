@@ -106,10 +106,11 @@ ALTER TABLE orders
     ADD COLUMN status int2;
 
 
+ALTER TABLE products
+ ADD  COLUMN image varchar;
 
---     id          serial8,
---     category_id int8    not null,
---     name        varchar not null,
---     price       int4    not null,
---     primary key (id),
---     foreign key (category_id) references categories (id)
+
+
+
+
+

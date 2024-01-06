@@ -1,51 +1,47 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
-    <link rel="stylesheet" href="/css/product_page_user.css">
+    <link rel="stylesheet" href="/css/header_example.css">
+    <link rel="stylesheet" href="/css/profile_view.css ">
+
 
 
 </head>
+
 <body>
 
-<div th:insert="fragments/header_example::headerFragment"></div>
-<br>
+<div th:replace="fragments/header_example::headerFragment"></div>
 
-<th:block>
+<div class="container">
+    <h3>Профиль</h3>
 
+    <p>Имя: <b th:text="${user.getName()}"></b></p>
+    <p>Фамилия: <b th:text="${user.getLastName()}"></b></p>
 
-    <h3>Данные пользователя:</h3>
-    <p> Имя : <b th:text="${user.getName()}"></b></p>
-    <p> Фамилия :<b th:text="${user.getLastName()}"></b></p>
-
-
-    <div th:if="${user.getOrders().isEmpty()}">
+    <div th:if="${user.getOrders().isEmpty()}" class="no-orders">
         <b>Заказов нет</b>
     </div>
 
-    <div th:if="${!user.getOrders().isEmpty()}">
+    <div th:if="${!user.getOrders().isEmpty()}" class="orders">
         <h3>Заказы:</h3>
-        <div th:each=" order : ${user.getOrders()}">
-            <a th:href="@{/order/view(orderId=${order.getId()})}" th:text="${order.getId()}"></a>
+        <div th:each="order : ${user.getOrders()}">
+            <a th:href="@{/order/view(orderId=${order.getId()})}" th:text=" 'Заказ № ' + ${order.getId()}"></a>
         </div>
-
     </div>
 
-
-    <a href="#" onclick="document.getElementById('logout-form').submit();">
-        <input type="submit" value="Logout"/>
+    <a href="#" class="logout-link" onclick="document.getElementById('logout-form').submit();">
+        Logout
     </a>
 
     <form id="logout-form" method="post" th:action="@{/logout}">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
-
-
-
-
-
-</th:block>
-
+</div>
 </body>
+
 </html>
+
+

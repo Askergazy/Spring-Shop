@@ -20,6 +20,8 @@ public class Product {
     private Long id;
     private String name;
     private Integer price;
+    private String image;
+
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -32,6 +34,8 @@ public class Product {
     @JsonIgnore
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacteristicValue> characteristicValues;
+
+
 
 
 
@@ -49,24 +53,29 @@ public class Product {
 
 
     @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                ", category=" + category +
+                ", reviews=" + reviews +
+                ", characteristicValues=" + characteristicValues +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(category, product.category) && Objects.equals(reviews, product.reviews) && Objects.equals(characteristicValues, product.characteristicValues);
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(image, product.image) && Objects.equals(category, product.category) && Objects.equals(reviews, product.reviews) && Objects.equals(characteristicValues, product.characteristicValues);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, category, reviews, characteristicValues);
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(" +
-               "id = " + id + ", " +
-               "name = " + name + ", " +
-               "category = " + category + ")";
+        return Objects.hash(id, name, price, image, category, reviews, characteristicValues);
     }
 }
 

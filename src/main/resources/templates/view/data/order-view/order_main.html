@@ -1,27 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Order Page</title>
+    <link rel="stylesheet" href="/css/order_main.css">
+
 </head>
 <body>
-<h1>Оформление заказа</h1>
 
-<h2>Товары</h2>
-<ul>
-    <li th:each="cartItem : ${cartItemList}">
-        Товар: <span th:text="${cartItem.product.name}"></span><br>
-        Количество: <span th:text="${cartItem.quantity}"></span><br>
-        Цена: <span th:text="${cartItem.getQuantity() * cartItem.getProduct().getPrice()}"></span>
-    </li>
-</ul>
-<p> Общая сумма :<b th:text="${sum}"></b></p>
-<h2>Данные</h2>
-<form method="post" th:action="@{/order}">
+<div class="order-container">
+    <h1>Оформление заказа</h1>
 
-    <label for="address">Адрес:</label>
-    <input type="text" id="address" name="address"><br>
+    <div class="order-details">
+        <h2>Товары</h2>
+        <ul class="cart-items">
+            <li th:each="cartItem : ${cartItemList}" class="cart-item">
+                <p>
+                    <span class="item-label">Товар:</span>
+                    <span class="item-value" th:text="${cartItem.product.name}"></span>
+                </p>
+                <p>
+                    <span class="item-label">Количество:</span>
+                    <span class="item-value" th:text="${cartItem.quantity}"></span>
+                </p>
+                <p>
+                    <span class="item-label">Цена:</span>
+                    <span class="item-value" th:text="${cartItem.getQuantity() * cartItem.getProduct().getPrice()}"></span>
+                </p>
+            </li>
+        </ul>
+        <p class="total-amount">Общая сумма: <b th:text="${sum}"></b></p>
+    </div>
 
-    <button type="submit">Оформить заказ</button>
-</form>
+    <div class="customer-details">
+        <h2>Данные</h2>
+        <form method="post" th:action="@{/order}" class="order-form">
+            <label for="address">Адрес:</label>
+            <input type="text" id="address" name="address" required><br>
+
+            <button type="submit" class="submit-button">Оформить заказ</button>
+        </form>
+    </div>
+</div>
+
+<!--<h1>Оформление заказа</h1>-->
+
+<!--<h2>Товары</h2>-->
+<!--<ul>-->
+<!--    <li th:each="cartItem : ${cartItemList}">-->
+<!--        Товар: <span th:text="${cartItem.product.name}"></span><br>-->
+<!--        Количество: <span th:text="${cartItem.quantity}"></span><br>-->
+<!--        Цена: <span th:text="${cartItem.getQuantity() * cartItem.getProduct().getPrice()}"></span>-->
+<!--    </li>-->
+<!--</ul>-->
+<!--<p> Общая сумма :<b th:text="${sum}"></b></p>-->
+<!--<h2>Данные</h2>-->
+<!--<form method="post" th:action="@{/order}">-->
+
+<!--    <label for="address">Адрес:</label>-->
+<!--    <input type="text" id="address" name="address"><br>-->
+
+<!--    <button type="submit">Оформить заказ</button>-->
+<!--</form>-->
 </body>
 </html>

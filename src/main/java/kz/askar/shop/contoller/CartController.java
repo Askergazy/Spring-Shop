@@ -39,7 +39,7 @@ public class CartController {
         if (user == null){
             boolean userIsEmpty = true;
             model.addAttribute("userIsEmpty",userIsEmpty);
-            return "redirect:/auth/login";
+            return "redirect:/login";
         }
 
         List<CartItem> list = cartItemService.getCartItemsByUser(user);
@@ -79,7 +79,7 @@ public class CartController {
 
         cartItemService.cartAdd(userId,productId);
 
-        return "redirect:/products";
+        return "redirect:/products/main ";
     }
 
 

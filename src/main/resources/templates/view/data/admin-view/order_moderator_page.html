@@ -5,15 +5,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Order Moderate</title>
+    <link rel="stylesheet" href=/css/order_moderator_page.css>
+
 </head>
 
 <body>
 
+<div th:insert="fragments/header_example::headerFragment"></div>
+
+ <h3>Модерация заказов</h3>
+
  <th:block>
 
-     <div th:each=" order : ${orders}">
-         <a th:href="@{/order/view(orderId=${order.getId()})}" th:text="${order.getId()}"  ></a>
-
+     <div th:each="order : ${orders}" class="order-item">
+         <a th:href="@{/order/view(orderId=${order.getId()})}" th:text="'Номер заказа №' + ${order.getId()}"></a>
      </div>
 
 

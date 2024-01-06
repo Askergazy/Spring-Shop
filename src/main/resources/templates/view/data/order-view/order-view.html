@@ -3,43 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Order View</title>
+    <link  rel="stylesheet"  href="/css/order_view.css">
 </head>
 <body>
 
+<div th:insert="fragments/header_example::headerFragment"></div>
 
-<th:block>
+<div class="order-details-container">
+    <h2>Информация о Заказе</h2>
 
-    <p> Имя:<b th:text="${order.getUser().getName()}"></b>
-    <p> Фамилия:<b th:text="${order.getUser().getLastName()}"></b></p>
-    <p> Адрес : <b th:text="${order.getAddress()}"></b></p>
-    <p> Дата заказа:<b th:text="${order.getOrderDate()}"></b></p>
-    <div th:each="orderItem : ${order.getOrderedProducts()}">
-        <p> Название товара :<b th:text="${orderItem.getProduct().getName()}"> </b></p>
-        <p> Количество товара : <b th:text="${orderItem.getCount()}"></b></p>
-        <p> Цена : <b th:text="${orderItem.getProduct().getPrice() * orderItem.getCount()}"></b></p>
-    </div>
+    <th:block>
 
-    <p> Общая сумма : <b th:text="${sum}"></b></p>
-</th:block>
+        <p> Имя:<b th:text="${order.getUser().getName()}"></b></p>
+        <p> Фамилия:<b th:text="${order.getUser().getLastName()}"></b></p>
+        <p> Адрес : <b th:text="${order.getAddress()}"></b></p>
+        <p> Дата заказа:<b th:text="${order.getOrderDate()}"></b></p>
+        <div th:each="orderItem : ${order.getOrderedProducts()}" class="ordered-item">
+            <p> Название товара :<b th:text="${orderItem.getProduct().getName()}"> </b></p>
+            <p> Количество товара : <b th:text="${orderItem.getCount()}"></b></p>
+            <p> Цена : <b th:text="${orderItem.getProduct().getPrice() * orderItem.getCount()}"></b></p>
+        </div>
 
-<form th:action="@{/order/view}" th:object="${order}" method="post">
-    <input type="hidden" name="orderId" th:value="${order.id}">
+        <p> Общая сумма : <b th:text="${sum}"></b></p>
+    </th:block>
 
-    <div th:if="${user.role.equals(user.role.ADMIN)}">
-        <select name="status">
-            <option th:text="${order.status}"></option>
-            <option  th:if="${status != order.status}" th:each="status : ${statuses}" th:value="${status}" th:text="${status.name()}"></option>
-        </select>
-        <button type="submit">Изменить статус</button>
-    </div>
+    <form th:action="@{/order/view}" th:object="${order}" method="post" class="order-form">
+        <input type="hidden" name="orderId" th:value="${order.id}">
+
+        <div th:if="${user.role.equals(user.role.ADMIN)}" class="admin-section">
+            <select class="option" name="status">
+                <option th:text="${order.status}"></option>
+                <option th:if="${status != order.status}" th:each="status : ${statuses}" th:value="${status}" th:text="${status.name()}"></option>
+            </select>
+            <button type="submit">Изменить статус</button>
+        </div>
+
+        <div th:if="${user.role.equals(user.role.USER)}" class="user-section">
+            <p> Статус:<b th:text="${order.status}"></b></p>
+        </div>
+    </form>
+</div>
 
 
-    <div th:if="${user.role.equals(user.role.USER)}">
-        <p> Статус:<b th:text="${order.status}"></b></p>
-    </div>
-
-
-</form>
 
 </body>
 </html>

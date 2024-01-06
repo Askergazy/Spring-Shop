@@ -1,0 +1,78 @@
+*{
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+
+    margin: 0;
+
+}
+
+.label-category{
+    margin-left: 400px;
+}
+
+.product-list {
+    text-decoration: none;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.product-item,
+.admin-product-item {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.product-item img,
+.admin-product-item img {
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.add-to-cart-button,
+.update-button,
+.delete-button {
+
+    display: inline-block;
+    width: 150px;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+}
+
+.add-to-cart-button {
+    background-color: #33c52d;
+}
+
+.update-button {
+    background-color: #33c52d;
+}
+
+.delete-button {
+    background-color: #33c52d;
+}
+
+.add-to-cart-button:hover,
+.update-button:hover,
+.delete-button:hover {
+    filter: brightness(80%);
+}

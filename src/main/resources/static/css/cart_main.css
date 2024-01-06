@@ -1,0 +1,95 @@
+*{
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+
+    margin: 0;
+}
+
+.cart-container {
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+h2 {
+    color: #33c52d;
+}
+
+.cart-list {
+
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-item a {
+
+    text-decoration: underline;
+    color: black;
+}
+
+.quantity-button,
+.delete-button,
+delete-all-button,
+order-button {
+
+    background-color: #33c52d;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+
+
+.quantity-button,
+.delete-button,
+delete-all-button {
+
+    cursor: pointer;
+    background-color: #33c52d;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.order-button {
+    padding: 9px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #33c52d;
+    color: #fff;
+    margin-top: 10px;
+    border: none;
+}
+
+.delete-all-button{
+    padding: 9px;
+    width: 120px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #33c52d;
+    color: #fff;
+    margin-top: 10px;
+    border: none;
+}
+
+
+
+
+order-button:hover {
+    background-color: #33c52d;
+}

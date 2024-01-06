@@ -1,0 +1,99 @@
+
+*{
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #495057;
+    margin: 0;
+}
+
+.product-info {
+    border-radius: 50px;
+    padding:20px ;
+    padding-inline: 50px;
+    background-color: white;
+    max-width: 600px;
+    margin: 10px auto auto auto;
+}
+
+.product-info h2 {
+    color: #33c52d;
+}
+
+.product-info p {
+    margin: 5px 0;
+}
+
+.product-info img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.characteristics {
+
+    margin-top: 20px;
+}
+
+.characteristics p {
+    margin: 5px 0;
+}
+
+.add-to-cart-button {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #33c52d;
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+    background-color: #33c52d;
+}
+
+.reviews {
+    margin-top: 20px;
+}
+
+.review-item {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.review-item p {
+    margin: 5px 0;
+}
+
+.review-form {
+    margin-top: 20px;
+}
+
+.review-form label {
+    margin-right: 10px;
+}
+
+.review-form input {
+    margin-bottom: 10px;
+}
+
+.review-form button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    background-color: #33c52d;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.review-form button:hover {
+    background-color: #33c52d;
+}

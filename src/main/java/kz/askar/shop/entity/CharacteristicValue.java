@@ -46,6 +46,10 @@ public class CharacteristicValue {
         return Objects.equals(id, that.id) && Objects.equals(product, that.product) && Objects.equals(value, that.value) && Objects.equals(characteristic, that.characteristic);
     }
 
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id, product, value, characteristic);

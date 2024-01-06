@@ -4,26 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Moderator Page</title>
+    <link rel="stylesheet" href="/css/moderator_page.css">
 </head>
 <body>
+<div th:insert="fragments/header_example::headerFragment"></div>
 
 
-<th:block >
+<th:block th:each="review : ${reviewList}">
+    <div class="review-item" th:if="${!review.status}">
+        <p class="product-name" th:text="${review.getProduct().getName()}"></p>
+        <p class="rating" th:text="${review.getRating()}"></p>
+        <p class="review-text" th:text="${review.getReviewText()}"></p>
+        <p class="review-date" th:text="${review.getReviewDate()}"></p>
 
-    <div th:each="review : ${reviewList}" >
-         <div th:if="${!review.status}">
-             <p  th:text="${review.getProduct().getName()}"></p>
-             <p  th:text="${review.getRating()}"></p>
-             <p th:text="${review.getReviewText()}"></p>
-             <p th:text="${review.getReviewDate()}"></p>
-
-             <a th:href="@{/review/delete(reviewId=${review.getId()})}"><input type="submit"value="Удалить"></a>
-             <a th:href="@{/review/approve(reviewId=${review.getId()})}"><input type="submit"value="Одобрить"></a>
-             <br>
-         </div>
+        <a class="delete-button" th:href="@{/review/delete(reviewId=${review.getId()})}">Удалить</a>
+        <a class="approve-button" th:href="@{/review/approve(reviewId=${review.getId()})}">Одобрить</a>
+        <br>
     </div>
-
 </th:block>
+
+
+<!--<th:block >-->
+
+<!--    <div th:each="review : ${reviewList}" >-->
+<!--         <div th:if="${!review.status}">-->
+<!--             <p  th:text="${review.getProduct().getName()}"></p>-->
+<!--             <p  th:text="${review.getRating()}"></p>-->
+<!--             <p th:text="${review.getReviewText()}"></p>-->
+<!--             <p th:text="${review.getReviewDate()}"></p>-->
+
+<!--             <a th:href="@{/review/delete(reviewId=${review.getId()})}"><input type="submit"value="Удалить"></a>-->
+<!--             <a th:href="@{/review/approve(reviewId=${review.getId()})}"><input type="submit"value="Одобрить"></a>-->
+<!--             <br>-->
+<!--         </div>-->
+<!--    </div>-->
+
+<!--</th:block>-->
 
 </body>
 </html>

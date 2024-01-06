@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cart</title>
-    <link rel="stylesheet" href="/css/product_page_user.css">
+    <link rel="stylesheet" href="/css/cart_main.css">
 
 </head>
 <body>
@@ -11,54 +11,99 @@
 <div th:insert="fragments/header_example::headerFragment"></div>
 
 <br>
+<div class="cart-container">
+    <h2>Корзина</h2>
+
+    <ul class="cart-list">
+        <li th:each="cartItem : ${cartItems}" class="cart-item">
+            <a th:href="@{/products/view(productId=${cartItem.product.getId()})}"
+               th:text="${cartItem.product.getName()}"></a>
+            <span th:text="'Количество: ' + ${cartItem.quantity}"></span>
+            <span th:text="'Стоимость: ' + ${cartItem.getQuantity() * cartItem.getProduct().getPrice()}"></span>
+
+            <form th:action="@{/cart/increaseQuantity}" method="post">
+                <input type="hidden" name="userId" th:value="${user.getId()}"/>
+                <input type="hidden" name="product" th:value="${cartItem.id}"/>
+                <button type="submit" class="quantity-button">Увеличить</button>
+            </form>
+
+            <form th:action="@{/cart/decreaseQuantity}" method="post">
+                <input type="hidden" name="userId" th:value="${user.getId()}"/>
+                <input type="hidden" name="product" th:value="${cartItem.id}"/>
+                <button type="submit" class="quantity-button">Уменьшить</button>
+            </form>
+
+            <a th:href="@{/cart/delete(cartItemId=${cartItem.getId()})}">
+                <button type="button" class="delete-button">Удалить</button>
+            </a>
+        </li>
+    </ul>
+
+    <th:block th:if="${!cartItems.isEmpty()}">
+        <p>Общая стоимость: <b th:text="${sum}"></b></p>
+    </th:block>
+
+    <form th:if="${!cartItems.isEmpty()}" th:action="@{/cart/deleteAll}" method="post">
+        <input type="hidden" name="userId" th:value="${user.getId()}"/>
+        <button type="submit" class="delete-all-button">Удалить все</button>
+    </form>
+
+    <form th:if="${!cartItems.isEmpty()}" th:action="@{/order}" method="get">
+        <button type="submit" class="order-button">Оформить заказ</button>
+    </form>
+
+    <th:block th:if="${cartItems.isEmpty()}">
+        <p>Корзина пуста</p>
+    </th:block>
+</div>
 
 
-<h2> Корзина </h2>
+<!--<h2> Корзина </h2>-->
 
-<ul>
-    <li th:each="cartItem : ${cartItems}">
-        <a th:href="@{/products/view(productId=${cartItem.product.getId()})}"
-           th:text="${cartItem.product.getName()}"></a>
-        <span th:text="'Количество:' + ${cartItem.quantity}"></span>
-        <span th:text="'Стоимость: ' + ${cartItem.getQuantity() * cartItem.getProduct().getPrice()}" ></span>
+<!--<ul>-->
+<!--    <li th:each="cartItem : ${cartItems}">-->
+<!--        <a th:href="@{/products/view(productId=${cartItem.product.getId()})}"-->
+<!--           th:text="${cartItem.product.getName()}"></a>-->
+<!--        <span th:text="'Количество:' + ${cartItem.quantity}"></span>-->
+<!--        <span th:text="'Стоимость: ' + ${cartItem.getQuantity() * cartItem.getProduct().getPrice()}" ></span>-->
 
-        <form th:action="@{/cart/increaseQuantity}" method="post">
-            <input type="hidden" name="userId" th:value="${user.getId()}"/>
-            <input type="hidden" name="product" th:value="${cartItem.id}"/>
-            <button type="submit">Увеличить</button>
-        </form>
+<!--        <form th:action="@{/cart/increaseQuantity}" method="post">-->
+<!--            <input type="hidden" name="userId" th:value="${user.getId()}"/>-->
+<!--            <input type="hidden" name="product" th:value="${cartItem.id}"/>-->
+<!--            <button type="submit">Увеличить</button>-->
+<!--        </form>-->
 
-        <form th:action="@{/cart/decreaseQuantity}" method="post">
-            <input type="hidden" name="userId" th:value="${user.getId()}"/>
-            <input type="hidden" name="product" th:value="${cartItem.id}"/>
-            <button type="submit">Уменьшить</button>
-        </form>
+<!--        <form th:action="@{/cart/decreaseQuantity}" method="post">-->
+<!--            <input type="hidden" name="userId" th:value="${user.getId()}"/>-->
+<!--            <input type="hidden" name="product" th:value="${cartItem.id}"/>-->
+<!--            <button type="submit">Уменьшить</button>-->
+<!--        </form>-->
 
-        <a th:href="@{/cart/delete(cartItemId=${cartItem.getId()})}"><input type="submit"value="Удалить"></a>
+<!--        <a th:href="@{/cart/delete(cartItemId=${cartItem.getId()})}"><input type="submit"value="Удалить"></a>-->
 
-    </li>
-</ul>
+<!--    </li>-->
+<!--</ul>-->
 
-<th:block th:if="${!cartItems.isEmpty()}">
-    <p>Общая стоимость: <b th:text="${sum}"></b> </p>
-</th:block>
-
-
+<!--<th:block th:if="${!cartItems.isEmpty()}">-->
+<!--    <p>Общая стоимость: <b th:text="${sum}"></b> </p>-->
+<!--</th:block>-->
 
 
-<form th:if="${!cartItems.isEmpty()} " th:action="@{/cart/deleteAll}" method="post">
-    <input type="hidden" name="userId" th:value="${user.getId()}"/>
-    <button type="submit">Удалить все</button>
-</form>
-
-<form th:if="${!cartItems.isEmpty()}" th:action="@{/order}" method="get">
-    <button type="submit" class="btn btn-primary">Оформить заказ</button>
-</form>
 
 
-<th:block th:if="${cartItems.isEmpty()}">
-    <p>Коризина пуста</p>
-</th:block>
+<!--<form th:if="${!cartItems.isEmpty()} " th:action="@{/cart/deleteAll}" method="post">-->
+<!--    <input type="hidden" name="userId" th:value="${user.getId()}"/>-->
+<!--    <button type="submit">Удалить все</button>-->
+<!--</form>-->
+
+<!--<form th:if="${!cartItems.isEmpty()}" th:action="@{/order}" method="get">-->
+<!--    <button type="submit" class="btn btn-primary">Оформить заказ</button>-->
+<!--</form>-->
+
+
+<!--<th:block th:if="${cartItems.isEmpty()}">-->
+<!--    <p>Коризина пуста</p>-->
+<!--</th:block>-->
 
 
 

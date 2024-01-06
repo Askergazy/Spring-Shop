@@ -1,0 +1,66 @@
+*{
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+}
+
+.update-product-form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #33c52d;
+    text-align: center;
+}
+
+img {
+    display: block;
+    margin: 10px auto;
+    max-width: 100%;
+    height: auto;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.characteristics-container {
+    margin-bottom: 10px;
+}
+
+.characteristics-container .form-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #33c52d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-button:hover {
+    background-color: #33c52d;
+}

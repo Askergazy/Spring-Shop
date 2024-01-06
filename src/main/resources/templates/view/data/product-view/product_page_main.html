@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Page User</title>
+
+    <link rel="stylesheet" href="/css/product_page_user.css">
+</head>
+<body>
+<div th:replace="fragments/header_example::headerFragment"></div>
+
+<div class="product-list">
+    <div th:each="product : ${productList}" class="product-item">
+
+        <a class="img" th:href="@{/products/view(productId=${product.getId()})}">
+            <img th:src="@{'/images/' + ${product.image}}" alt="Product Image" width="60" />
+        </a>
+
+
+
+        <div class="product-details">
+            <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"></a>
+            <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getPrice() + ' ' +  'T'}"></a>
+
+            <a th:href="@{/cart/add(productId=${product.getId()})}" class="add-to-cart-button">В корзину</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

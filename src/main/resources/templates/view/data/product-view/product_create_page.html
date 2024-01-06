@@ -3,21 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Product Form</title>
+    <link rel="stylesheet" href="/css/product_create_page.css">
+
 </head>
 <body>
 
-<h2>Create Product</h2>
+<div th:insert="fragments/header_example::headerFragment"></div>
 
-<form th:action="@{/products/create}" method="post">
-    <input type="text" name="name" placeholder="Название">
-    <input type="number" name="price" placeholder="Цена">
 
-    <select name="categoryId">
-        <option th:each="category : ${categoryList}" th:value="${category.getId()}" th:text="${category.name}"></option>
+<div class="filter">
+    <select onchange="location.href = '/products/createByCategory' + this.value;">
+        <option value="" selected disabled hidden>Выберите категорию</option>
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
     </select>
+</div>
 
-    <button type="submit">Submit</button>
-</form>
+
+
+<!--<div class="form-container">-->
+<!--    <h2>Создать Товар</h2>-->
+
+<!--    <form th:action="@{/products/createByCategory{id}" method="post" enctype="multipart/form-data" class="product-form">-->
+<!--        <input type="text" name="name" placeholder="Название">-->
+<!--        <input type="number" name="price" placeholder="Цена">-->
+
+<!--        <select name="categoryId">-->
+<!--            <option th:each="category : ${categoryList}" th:value="${category.getId()}" th:text="${category.name}"></option>-->
+<!--        </select>-->
+
+<!--        <input type="file" name="image">-->
+
+<!--        <button type="submit">Создать</button>-->
+<!--    </form>-->
+</div>
+</body>
+
+
+
+
 
 
 

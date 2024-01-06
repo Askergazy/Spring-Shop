@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Search Result</title>
-    <link rel="stylesheet" href="/css/product_page_user.css">
+    <link rel="stylesheet" href="/css/product_result_search.css">
 
 </head>
 <body>
@@ -16,9 +16,30 @@
     <b>Ничего не найдено</b>
 </div>
 
-<div   th:each="product : ${products} " >
-    <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"  ></a>
+<div class="box-product-container">
+<div class="product-container" th:if="${!#authorization.expression('hasRole(''ADMIN'')')}" th:each="product : ${products}">
+    <a class="img" th:href="@{/products/view(productId=${product.getId()})}">
+        <img th:src="@{'/images/' + ${product.image}}" alt="Product Image" width="70" height="70" />
+    </a>
+    <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"></a>
+    <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getPrice()}"></a>
+    <a th:href="@{/cart/add(productId=${product.getId()})}" class="action-button">Добавить в корзину</a>
 </div>
+
+<div class="product-container" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:each="product : ${products}">
+    <a class="img" th:href="@{/products/view(productId=${product.getId()})}">
+        <img th:src="@{'/images/' + ${product.image}}" alt="Product Image" width="70" height="70"/>
+    </a>
+    <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"></a>
+    <a th:href="@{/cart/add(productId=${product.getId()})}" class="action-button">Добавить в корзину</a>
+    <a th:href="@{/products/update(productId=${product.getId()})}" class="action-button">Обновить</a>
+    <a th:href="@{/products/delete(productId=${product.getId()})}" class="action-button">Удалить</a>
+</div>
+</div>
+
+
+
+
 
 </body>
 </html>

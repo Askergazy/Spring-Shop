@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>ProductControllerAdmin</title>
+    <link rel="stylesheet" href="/css/product_page_main_admin.css">
 
 </head>
 <body>
 
-<h2>Товары</h2>
+<div th:replace="fragments/header_example::headerFragment"></div>
 
-<div>
-    <form th:action="@{/products/admin/search}" method="get">
-        <input type="text" id="name" name="name" placeholder="Поиск по имени товара">
-        <button type="submit">Поиск</button>
-    </form>
+<th:block>
+    <a th:href="@{/products/create}" class="create-product-link">Создать новый товар</a>
+    <a th:href="@{/review/moderate}" class="create-product-link">Модерация отзывов</a>
+    <a th:href="@{/order/moderate}" class="create-product-link">Модерация заказов</a>
 
-
-    </br>
-    <select onchange="location.href = '/products/admin/category/' + this.value;">
-        <option value="" selected disabled hidden>Выберите категорию</option>
-        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-    </select>
-
-    <br/>
+    <div th:each="product : ${productList}" class="product-item">
+        <a class="img" th:href="@{/products/view(productId=${product.getId()})}">
+            <img th:src="@{'/images/' + ${product.image}}" alt="Product Image" width="60" />
+        </a>
 
 
-</div>
+        <div class="product-details">
+            <a th:href="@{/products/view(productId=${product.getId()})}" th:text="${product.getName()}"></a>
+            <a th:href="@{/products/update(productId=${product.getId()})}" class="action-button">Обновить</a>
+            <a th:href="@{/products/delete(productId=${product.getId()})}" class="action-button">Удалить</a>
+            <a th:href="@{/cart/add(productId=${product.getId()})}" class="action-button">Добавить в корзину</a>
+        </div>
+    </div>
+</th:block>
+
+
+
+
 
 
 </body>
