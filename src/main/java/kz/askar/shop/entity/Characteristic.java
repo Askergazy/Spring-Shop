@@ -1,5 +1,7 @@
 package kz.askar.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,9 +27,11 @@ public class Characteristic {
 
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "characteristic")
     private List<CharacteristicValue> characteristicValueList;
 

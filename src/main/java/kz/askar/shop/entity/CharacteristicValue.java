@@ -1,5 +1,6 @@
 package kz.askar.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,13 +22,17 @@ public class CharacteristicValue {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonBackReference
     private Product product;
 
     private String value;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "characteristic_id")
     private Characteristic characteristic;
+
+
 
     public Product getProduct() {
         return product;

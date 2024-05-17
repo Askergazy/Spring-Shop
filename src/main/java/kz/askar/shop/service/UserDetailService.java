@@ -22,8 +22,7 @@ public class UserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-//        System.out.println("--- username ---");
-//        System.out.println(login);
+
 
         Optional<User> user = userRepository.findByLogin(login);
 

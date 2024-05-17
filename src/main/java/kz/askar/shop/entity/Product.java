@@ -1,6 +1,7 @@
 package kz.askar.shop.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,30 +9,33 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
-
 @Setter
 @Getter
 @Entity
 @Table(name = "products")
 public class Product {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private Integer price;
+
+    @JsonIgnore
     private String image;
 
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacteristicValue> characteristicValues;
 

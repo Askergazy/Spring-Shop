@@ -15,37 +15,35 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-
     private UserDetailService userDetailService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
+        httpSecurity.csrf(csrfConfigurer -> {
+            csrfConfigurer.ignoringRequestMatchers("/rest/**");
+        });
 
+        httpSecurity.authorizeHttpRequests(authorizationConfigurer -> {
+            authorizationConfigurer.requestMatchers(
+                    "/review/moderate",
+                    "/order/moderate",
+                    "/products/admin",
+                    "products/admin/category/{id}",
+                    "products/admin/search",
+                    "products/update",
+                    "products/delete",
+                    "products/create"
+            ).hasRole(Role.ADMIN.name());
+            authorizationConfigurer.requestMatchers("/cart", "/cart/add").authenticated();
+            authorizationConfigurer.anyRequest().permitAll();
+        });
         httpSecurity
-
-                .csrf()
-                .and()
-                .authorizeRequests()
-                .requestMatchers("/review/moderate", "/order/moderate", "/products/admin",
-                        "products/admin/category/{id}", "products/admin/search", "products/update", "products/delete","products/create").hasRole(Role.ADMIN.name())
-                .requestMatchers("/cart","/cart/add").authenticated()
-                .requestMatchers("/login", "auth/registration", "/products/main", "/products/view").permitAll()
-                .and()
                 .logout().logoutSuccessUrl("/products/main")
                 .and()
                 .formLogin(httpSecurityFormLoginConfigurer -> {
                     httpSecurityFormLoginConfigurer.defaultSuccessUrl("/products/main");
                 });
-
-//                .formLogin().loginPage("/auth/login")
-//                .usernameParameter("login")
-//                .defaultSuccessUrl("/products/user")
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/auth/login");
-
 
         return httpSecurity.build();
     }
@@ -54,4 +52,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 }

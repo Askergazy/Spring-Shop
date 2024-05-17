@@ -27,11 +27,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-
-
     @Enumerated(EnumType.ORDINAL)
     private Role role;
-
 
     @NotEmpty(message = "Логин не должен быть пустым")
     @Size(min = 2,max = 100,message = "Логин должен быть от 2 до 100 символов длниной")
@@ -39,7 +36,6 @@ public class User {
 
     @NotEmpty(message = "Пароль не должен быть пустым")
     String password;
-
 
     @NotEmpty
     String name;
